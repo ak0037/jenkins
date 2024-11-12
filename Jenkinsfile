@@ -50,10 +50,23 @@ node {
     sh """#!/bin/bash
           source ${VENV_PATH}/bin/activate
           echo "Workspace Path: ${workspacePath}"
+          
+          # List workspace contents
+          echo "Listing workspace contents:"
           ${DBCLIPATH}/databricks workspace ls ${workspacePath}
           
-          # Print bundle validation details
-          ${DBCLIPATH}/databricks bundle validate -t ${BUNDLETARGET} --verbose
+          # Check if required notebooks exist
+          echo "\nChecking for required notebooks:"
+          ${DBCLIPATH}/databricks workspace ls ${workspacePath}/run_unit_tests.py || echo "run_unit_tests.py not found"
+          ${DBCLIPATH}/databricks workspace ls ${workspacePath}/dabdemo_notebook.py || echo "dabdemo_notebook.py not found"
+          
+          # Show bundle validation
+          echo "\nBundle validation:"
+          ${DBCLIPATH}/databricks bundle validate -t ${BUNDLETARGET}
+          
+          # List files in deployment directory
+          echo "\nListing deployed files:"
+          ${DBCLIPATH}/databricks workspace ls ${workspacePath}/files || echo "files directory not found"
        """
   }
 
