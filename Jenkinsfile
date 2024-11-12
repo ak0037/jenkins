@@ -41,6 +41,16 @@ node {
        """
   }
 
+  stage('Verify Workspace') {
+    sh """#!/bin/bash
+          # List workspace contents
+          ${DBCLIPATH}/databricks workspace ls /Users/${DATABRICKS_USERNAME}
+          
+          # Print bundle validation details
+          ${DBCLIPATH}/databricks bundle validate -t ${BUNDLETARGET} --verbose
+       """
+}
+
   stage('Run Unit Tests') {
     sh """#!/bin/bash
           source ${VENV_PATH}/bin/activate
