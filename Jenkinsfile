@@ -1,5 +1,5 @@
 node {
-  def GITREPOREMOTE = "https://github.com/your-username/databricks-cicd.git"
+  def GITREPOREMOTE = "https://github.com/ak0037/jenkins.git"  // Update with your actual repo
   def GITBRANCH     = "main"
   def DBCLIPATH     = "/usr/local/bin"
   def JQPATH        = "/usr/bin"
@@ -7,7 +7,13 @@ node {
   def BUNDLETARGET  = "dev"
 
   stage('Checkout') {
-    git branch: GITBRANCH, url: GITREPOREMOTE
+    checkout([$class: 'GitSCM',
+      branches: [[name: GITBRANCH]],
+      userRemoteConfigs: [[
+        url: GITREPOREMOTE,
+        credentialsId: 'github-pat'
+      ]]
+    ])
   }
 
   stage('Validate Bundle') {
