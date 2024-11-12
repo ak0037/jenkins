@@ -42,14 +42,20 @@ node {
   }
 
   stage('Verify Workspace') {
+    def workspacePath = sh(
+      script: "${DBCLIPATH}/databricks bundle validate -t ${BUNDLETARGET} | grep 'Path:' | awk '{print \$2}'",
+      returnStdout: true
+    ).trim()
+    
     sh """#!/bin/bash
-          # List workspace contents
-          ${DBCLIPATH}/databricks workspace ls /Users/${DATABRICKS_USERNAME}
+          source ${VENV_PATH}/bin/activate
+          echo "Workspace Path: ${workspacePath}"
+          ${DBCLIPATH}/databricks workspace ls ${workspacePath}
           
           # Print bundle validation details
           ${DBCLIPATH}/databricks bundle validate -t ${BUNDLETARGET} --verbose
        """
-}
+  }
 
   stage('Run Unit Tests') {
     sh """#!/bin/bash
