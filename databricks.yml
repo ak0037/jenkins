@@ -30,7 +30,7 @@ resources:
             spark_env_vars:
               WORKSPACEBUNDLEPATH: ${workspace.root_path}
           notebook_task:
-            notebook_path: ${workspace.root_path}/run_unit_tests.py
+            notebook_path: ${workspace.root_path}/files/run_unit_tests
             source: WORKSPACE
           libraries:
             - pypi:
@@ -48,7 +48,7 @@ resources:
             spark_env_vars:
               WORKSPACEBUNDLEPATH: ${workspace.root_path}
           notebook_task:
-            notebook_path: ${workspace.root_path}/dabdemo_notebook.py
+            notebook_path: ${workspace.root_path}/dabdemo_notebook
             source: WORKSPACE
           libraries:
             - whl: "${workspace.root_path}/files/Libraries/python/dabdemo/dist/dabdemo-0.0.1-py3-none-any.whl"
@@ -64,7 +64,7 @@ resources:
             spark_env_vars:
               WORKSPACEBUNDLEPATH: ${workspace.root_path}
           spark_python_task:
-            python_file: ${workspace.root_path}/evaluate_notebook_runs.py
+            python_file: ${workspace.root_path}/files/evaluate_notebook_runs
             source: WORKSPACE
           libraries:
             - pypi:
